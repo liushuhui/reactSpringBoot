@@ -1,3 +1,4 @@
+import IconSelect from "@/components/IconSelect";
 import menuStore from "@/store/menuStore";
 import { ModalForm, ProFormDigit, ProFormSelect, ProFormSwitch, ProFormText } from "@ant-design/pro-components";
 import { Button, Form, message } from "antd";
@@ -89,7 +90,13 @@ const MenuModal = (props: MenuModalProps) => {
                     label='排序'
                     rules={[{ required: true, message: '排序' }]}
                 />
-
+                <Form.Item
+                    name='icon'
+                    label='菜单图标'
+                    rules={[{ required: true, message: '菜单图标' }]}
+                >
+                    <IconSelect />
+                </Form.Item>
 
             </ModalForm>
         </>

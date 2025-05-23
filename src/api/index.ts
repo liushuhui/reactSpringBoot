@@ -14,6 +14,7 @@ let axiosInstance: AxiosInstance = axios.create({
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
+    Token: localStorage.getItem("app_token"),
   },
 });
 
@@ -29,6 +30,10 @@ axiosInstance.interceptors.response.use(
     }
 
     if (response.status === 200) {
+      if (!localStorage.getItem("app_token")) {
+        message.error(response.data.message);
+        window.location.href = "/login";
+      }
       return response?.data;
     } else {
       message.error(response.status);

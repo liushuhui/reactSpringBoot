@@ -5,7 +5,7 @@ import router from './routes';
 
 import menuStore from "@/store/menuStore";
 import 'antd/dist/reset.css';
-
+import '@ant-design/v5-patch-for-react-19';
 
 import './index.css';
 
@@ -14,7 +14,10 @@ const root = ReactDOM.createRoot(
 );
 
 const initializeApp = async () => {
-  await menuStore.getState().fetchMenu();
+  const token = localStorage.getItem('app_token');
+  if (token) {
+    await menuStore.getState().fetchMenu();
+  }
 };
 
 initializeApp();
@@ -22,7 +25,6 @@ root.render(
   // <React.StrictMode>
   <ConfigProvider
     theme={{
-      // token: { colorPrimary: 'red' },
       components: {
         Layout: {
           bodyBg: '#f2f2f2',
@@ -31,6 +33,10 @@ root.render(
           colorPrimary: '#f29820',
           primaryColor: '#3d3d3d'
         },
+        Menu: {
+          itemBg: '#',
+          itemColor: '#ffffff'
+        }
       },
     }}>
     <RouterProvider router={router} />

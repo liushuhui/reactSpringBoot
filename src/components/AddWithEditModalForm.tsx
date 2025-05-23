@@ -96,6 +96,9 @@ const AddWithEditModalForm = (props: any) => {
                         className="avatar-uploader"
                         showUploadList={false}
                         action="/api/test/upload"
+                        headers={{
+                            Token: localStorage.getItem('app_token') ?? ''
+                        }}
                         beforeUpload={beforeUpload}
                         onChange={handleChange}
                     >

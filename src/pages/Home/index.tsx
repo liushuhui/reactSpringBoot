@@ -1,9 +1,10 @@
+import IconSelect from "@/components/IconSelect";
 
 const Home = () => {
     
     return (
         <div>
-            <h1>Home</h1>
+            <IconSelect/>
         </div>
     );
 };

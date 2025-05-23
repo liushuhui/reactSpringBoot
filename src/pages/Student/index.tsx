@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '@/api';
 import { Avatar, Button, Flex, message, Modal, Space, Table, TableProps, Upload } from 'antd';
 import { useSetState } from 'ahooks';
 import './index.less';
@@ -34,7 +34,7 @@ function Student() {
     const res = await axios.get('/api/test/queryList', {
       params
     });
-    setData({ list: res.data?.data?.list, total: res.data?.data?.total });
+    setData({ list: res?.data?.list, total: res?.data?.total });
   }, [setData])
 
   const addUser = async (type: string, values: any, id?: number) => {
@@ -62,21 +62,21 @@ function Student() {
     modal.confirm({
       title: '确认删除？',
       onOk: async () => {
-        const res = await axios.post('/api/test/deleteUserByIds', { ids });
-        if (res?.data?.success) {
-          messageApi.success(res?.data?.data);
+        const res: any = await axios.post('/api/test/deleteUserByIds', { ids });
+        if (res?.success) {
+          messageApi.success(res?.data);
           setData({ currentPage: 1, pageSize: 10 });
           getData({ currentPage: 1, pageSize: 10 });
           return;
         }
-        messageApi.error(res?.data?.data);
+        messageApi.error(res?.data);
       }
     })
   }
 
   const getUserById = async (id: number) => {
     const res = await axios.get(`/api/test/queryUserById?id=${id}`);
-    return res?.data?.data;
+    return res?.data;
   }
 
   const exportExcel = async () => {
@@ -175,7 +175,7 @@ function Student() {
     },
   ];
 
- 
+
 
   useEffect(() => {
     getData({ currentPage: 1, pageSize: 10 });
@@ -194,6 +194,9 @@ function Student() {
           name='file'
           showUploadList={false}
           action='/api/test/importExcel'
+          headers={{
+            Token: localStorage.getItem('app_token') ?? ''
+          }}
           onChange={(info) => {
             if (info.file.status === 'done') {
               if (info?.file?.response?.success) {

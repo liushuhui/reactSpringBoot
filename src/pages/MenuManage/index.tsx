@@ -7,6 +7,7 @@ import './index.less'
 import { useRequest } from "ahooks";
 import { addMenu, getMenu, getMenuById, updateMenu } from "@/api/menu";
 import dayjs from "dayjs";
+import IconComponent from "@/components/IconComponent";
 const MenuManage = () => {
     const { menuData } = menuStore();
     const [dataSource, setDataSource] = useState([]);
@@ -39,7 +40,8 @@ const MenuManage = () => {
         {
             title: '菜单图标',
             key: 'icon',
-            dataIndex: 'icon'
+            dataIndex: 'icon',
+            render: (_: any, record: any) => <IconComponent icon={record?.icon} />
         },
         {
             title: '启用状态',

@@ -1,8 +1,9 @@
-import { MailOutlined } from "@ant-design/icons";
 import { Menu, MenuProps } from "antd"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import menuStore from "@/store/menuStore";
+import IconComponent from "../IconComponent";
+
 
 const MenuComponent = () => {
     const { menuData } = menuStore();
@@ -15,7 +16,7 @@ const MenuComponent = () => {
             return {
                 key: item.url,
                 label: item.name,
-                icon: <MailOutlined />,
+                icon: <IconComponent icon={item.icon} />,
                 children: item?.children?.length > 0 ? formatMenuItems(item?.children) : undefined
             }
         });
@@ -33,11 +34,11 @@ const MenuComponent = () => {
         <Menu
             onClick={onClick}
             style={{ height: '100%', overflow: 'auto' }}
-            theme="dark"
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
             mode="inline"
             items={menuSource}
+
         />
     )
 }
