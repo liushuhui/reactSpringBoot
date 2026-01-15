@@ -1,45 +1,40 @@
+import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import Student from "@/pages/Student";
-import LayoutPage from "@/components/Home/LayoutPage";
-import MenuManage from "@/pages/MenuManage";
 import Home from "@/pages/Home";
-import Login from "@/pages/Login";
+import UserRoute from "./user";
+import MenuRoute from "./menu";
+import ThreeRoute from './three';
+
+
+const Layout = lazy(() => import("@/components/Home/LayoutPage"));
+
+const LoginPage = lazy(() => import("@/pages/Login"));
+const NoticePage = lazy(() => import("@/pages/Notice"));
 
 const router = createBrowserRouter([
     {
         path: "/login",
-        element: <Login  />,
+        element: <LoginPage />,
     },
     {
         path: "/register",
-        element: <Login  />,
+        element: <LoginPage />,
     },
     {
         path: "/",
-        element: <LayoutPage />,
+        element: <Layout />,
         children: [
             {
                 path: "/",
-                element: <Home/>
+                element: <Home />
             },
+            UserRoute,
+            MenuRoute,
+            ThreeRoute,
             {
-                path: "/student",
-                children: [
-                    {
-                        path: "list",
-                        element: <Student />
-                    }
-                ]
-            },
-            {
-                path: "/menu",
-                children: [
-                    {
-                        path: "list",
-                        element: <MenuManage />
-                    }
-                ]
-            },
+                path: "/notice/:userId?",
+                element: <NoticePage/>
+            }
         ]
     },
     {

@@ -67,7 +67,7 @@ const AddWithEditModalForm = (props: any) => {
                     </Button>}
                 submitTimeout={1000}
                 modalProps={{
-                    destroyOnClose: true
+                    destroyOnHidden: true,
                 }}
                 onFinish={async (values) => {
                     const res = await addUser(values);

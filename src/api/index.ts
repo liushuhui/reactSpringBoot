@@ -32,7 +32,6 @@ axiosInstance.interceptors.response.use(
     if (response.status === 200) {
       if (!localStorage.getItem("app_token")) {
         message.error(response.data.message);
-        window.location.href = "/login";
       }
       return response?.data;
     } else {

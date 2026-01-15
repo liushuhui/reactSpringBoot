@@ -15,8 +15,8 @@ const contentStyle: React.CSSProperties = {
 const siderStyle: React.CSSProperties = {
     textAlign: 'center',
     lineHeight: '120px',
-    color: '#fff',
-    backgroundColor: '#1677ff',
+    // color: '#fff',
+    // backgroundColor: '#1677ff',
 };
 
 const footerStyle: React.CSSProperties = {

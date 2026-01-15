@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { Button, Input, Popover, Segmented } from 'antd';
+import { Button, Input, Popover, Segmented, Space } from 'antd';
 import * as AntdIcons from '@ant-design/icons';
 import Icon from '@ant-design/icons';
 import { ProCard } from '@ant-design/pro-components';
@@ -90,29 +90,33 @@ const IconSelect: React.FC<IconSelectProps> = ({ value, onChange }) => {
                     </ProCard>
                 </div>
             )}>
-            <Input
-                type="text"
-                value={value}
-                onFocus={() => setPopoverOpen(true)}
-                placeholder='点击选择图标'
-                readOnly
-                onChange={(e) => { onChange?.(e.target.value) }}
-                suffix={
-                    <Button
-                        type='link'
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onChange?.('');
-                            setPopoverOpen(false);
-                        }}>
-                        清除
-                    </Button>}
-                addonAfter={<SelectedIcon
-                    style={{
-                        cursor: 'pointer'
-                    }}
-                    onClick={() => setPopoverOpen(!popoverOpen)} />}
-            />
+            <Space.Compact>
+                <Input
+                    type="text"
+                    value={value}
+                    onFocus={() => setPopoverOpen(true)}
+                    placeholder='点击选择图标'
+                    readOnly
+                    onChange={(e) => { onChange?.(e.target.value) }}
+                    suffix={
+                        <Button
+                            type='link'
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onChange?.('');
+                                setPopoverOpen(false);
+                            }}>
+                            清除
+                        </Button>}
+                />
+                <Space.Addon>
+                    <SelectedIcon
+                        style={{
+                            cursor: 'pointer'
+                        }}
+                        onClick={() => setPopoverOpen(!popoverOpen)} />
+                </Space.Addon>
+            </Space.Compact>
         </Popover>
     )
 }

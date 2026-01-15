@@ -5,6 +5,7 @@ import {
 } from '@ant-design/icons';
 import {
     LoginFormPage,
+    ProFormRadio,
     ProFormText,
 } from '@ant-design/pro-components';
 import { Button, Form, message, theme } from 'antd';
@@ -111,7 +112,7 @@ const Login = () => {
                             },
                             ({ getFieldValue }) => ({
                                 validator(_, value) {
-                                    if (!value || getFieldValue('confirmPassword') === value) {
+                                    if (isLogin || (value && getFieldValue('confirmPassword') === value)) {
                                         return Promise.resolve();
                                     }
                                     return Promise.reject(new Error('两次输入的密码不一致！'));
@@ -119,6 +120,7 @@ const Login = () => {
                             })
                         ]}
                     />
+
                     {!isLogin &&
                         <ProFormText.Password
                             name="confirmPassword"
@@ -149,6 +151,30 @@ const Login = () => {
                                 })
                             ]}
                         />}
+                    <ProFormRadio.Group
+                        name="role"
+                        label='用户角色'
+                        options={[
+                            {
+                                label: '学生',
+                                value: '1',
+                            },
+                            {
+                                label: '教师',
+                                value: '2',
+                            },
+                            {
+                                label: '管理员',
+                                value: '3',
+                            }
+                        ]}
+                        rules={[
+                            {
+                                required: true,
+                                message: '请选择用户角色！',
+                            },
+                        ]}
+                    />
                 </>
 
                 {isLogin && <Button

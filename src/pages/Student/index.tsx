@@ -2,9 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 import axios from '@/api';
 import { Avatar, Button, Flex, message, Modal, Space, Table, TableProps, Upload } from 'antd';
 import { useSetState } from 'ahooks';
-import './index.less';
-import AddWithEditModalForm from '@/components/AddWithEditModalForm';
+import AddWithEditModalForm from './components/AddWithEditModalForm';
 
+import './index.less';
 function Student() {
   const [data, setData] = useSetState({
     list: [],
@@ -31,14 +31,14 @@ function Student() {
   };
 
   const getData = useCallback(async (params: any) => {
-    const res = await axios.get('/api/test/queryList', {
+    const res = await axios.get('/api/student/queryList', {
       params
     });
     setData({ list: res?.data?.list, total: res?.data?.total });
   }, [setData])
 
   const addUser = async (type: string, values: any, id?: number) => {
-    const res = await axios.post(`/api/test/${type === 'add' ? 'addUser' : 'updateUser'}`, { ...values, id });
+    const res = await axios.post(`/api/student/${type === 'add' ? 'addUser' : 'updateUser'}`, { ...values, id });
     return res?.data;
   }
 
@@ -46,7 +46,7 @@ function Student() {
     modal.confirm({
       title: '确认删除？',
       onOk: async () => {
-        const res = await axios.delete('/api/test/deleteUserById', { params: { id } });
+        const res = await axios.delete('/api/student/deleteUserById', { params: { id } });
         if (res?.data?.success) {
           messageApi.success(res?.data?.data);
           setData({ currentPage: 1, pageSize: 10 });
@@ -62,7 +62,7 @@ function Student() {
     modal.confirm({
       title: '确认删除？',
       onOk: async () => {
-        const res: any = await axios.post('/api/test/deleteUserByIds', { ids });
+        const res: any = await axios.post('/api/student/deleteUserByIds', { ids });
         if (res?.success) {
           messageApi.success(res?.data);
           setData({ currentPage: 1, pageSize: 10 });
@@ -75,12 +75,12 @@ function Student() {
   }
 
   const getUserById = async (id: number) => {
-    const res = await axios.get(`/api/test/queryUserById?id=${id}`);
+    const res = await axios.get(`/api/student/queryUserById?id=${id}`);
     return res?.data;
   }
 
   const exportExcel = async () => {
-    const res = await axios.get(`/api/test/exportExcel`, { responseType: 'blob' });
+    const res = await axios.get(`/api/student/exportExcel`, { responseType: 'blob' });
     const link = document.createElement("a");
     let blob = new Blob([res.data]);
     link.style.display = "none";
@@ -193,7 +193,7 @@ function Student() {
         <Upload
           name='file'
           showUploadList={false}
-          action='/api/test/importExcel'
+          action='/api/student/importExcel'
           headers={{
             Token: localStorage.getItem('app_token') ?? ''
           }}
