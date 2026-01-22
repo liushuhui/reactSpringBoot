@@ -53,8 +53,6 @@ const Login = () => {
                             message.success('登录成功！');
                             localStorage.setItem('app_token', res?.data);
                             window.location.href = '/';
-                        } else {
-                            message.error(res?.message);
                         }
                     } else {
                         const res: any = await register(values);

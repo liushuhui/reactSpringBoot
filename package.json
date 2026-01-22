@@ -22,7 +22,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
-    "lodash": "^4.17.21",
+    "es-toolkit": "^1.44.0",
     "lucide-react": "^0.562.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -62,7 +62,6 @@
     ]
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.16",
     "@types/node": "^16.18.126",
     "@types/tailwindcss": "^3.1.0",
     "@vitejs/plugin-react": "^4.4.1",

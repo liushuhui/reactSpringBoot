@@ -9,7 +9,7 @@ const Teacher = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const { data, run } = useRequest(getTeachers);
-  const { run: editRun } = useRequest(updateTeacher);
+  // const { run: editRun } = useRequest(updateTeacher);
 
   const deleteTeacher = (ids: string) => {
     modal.confirm({
