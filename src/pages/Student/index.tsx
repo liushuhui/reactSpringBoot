@@ -80,7 +80,8 @@ function Student() {
   }
 
   const exportExcel = async () => {
-    const res = await axios.get(`/api/student/exportExcel`, { responseType: 'blob' });
+    // blob 请求返回原始 AxiosResponse（包含 headers）
+    const res = await axios.get(`/api/student/exportExcel`, { responseType: 'blob' }) as any;
     const link = document.createElement("a");
     let blob = new Blob([res.data]);
     link.style.display = "none";
@@ -92,7 +93,7 @@ function Student() {
     console.log(res);
   }
 
-  const columns: any = [
+  const columns: TableProps<any>['columns'] = [
     {
       title: 'ID',
       dataIndex: 'id',
@@ -112,7 +113,12 @@ function Student() {
       key: 'avatar',
       align: 'center',
       // width: 200,
-      render: (text: string) => <Avatar src={text} />
+      render: (text) => <Avatar src={text} />
+    },
+    {
+      title: '所属班级',
+      dataIndex: 'className',
+      key: 'className',
     },
     {
       title: '性别',

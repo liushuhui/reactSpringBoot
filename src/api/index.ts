@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 
 import { message } from "antd";
 
@@ -22,14 +22,19 @@ const axiosInstance = axios.create({
 
 // axios实例拦截响应
 axiosInstance.interceptors.response.use(
-  (response: AxiosResponse<IResponse>) => {
-    const { data, headers } = response;
+  (response: AxiosResponse) => {
+    const { data, headers, config } = response;
     
     // 处理 token 存储
     if (headers.authorization) {
       localStorage.setItem("app_token", headers.authorization);
     } else if (data && (data as any).token) {
       localStorage.setItem("app_token", (data as any).token);
+    }
+    
+    // 对于 blob 类型（文件下载），返回原始响应
+    if (config.responseType === 'blob') {
+      return response as any;
     }
     
     // 处理业务逻辑
@@ -78,11 +83,11 @@ axiosInstance.interceptors.request.use(
 
 // 扩展 axios 实例类型，使其返回 IResponse<T> 而不是 AxiosResponse
 interface CustomAxiosInstance {
-  get<T = any>(url: string, config?: InternalAxiosRequestConfig): Promise<IResponse<T>>;
-  post<T = any>(url: string, data?: any, config?: InternalAxiosRequestConfig): Promise<IResponse<T>>;
-  put<T = any>(url: string, data?: any, config?: InternalAxiosRequestConfig): Promise<IResponse<T>>;
-  delete<T = any>(url: string, config?: InternalAxiosRequestConfig): Promise<IResponse<T>>;
-  patch<T = any>(url: string, data?: any, config?: InternalAxiosRequestConfig): Promise<IResponse<T>>;
+  get<T = any>(url: string, config?: AxiosRequestConfig): Promise<IResponse<T>>;
+  post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<IResponse<T>>;
+  put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<IResponse<T>>;
+  delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<IResponse<T>>;
+  patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<IResponse<T>>;
   [key: string]: any; // 允许其他属性和方法
 }
 

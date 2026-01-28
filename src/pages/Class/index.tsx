@@ -5,13 +5,15 @@ import { omit } from "es-toolkit/object"
 import { useRequest } from "ahooks";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
+import InviteStudentModal from "./component/InviteStudentModal";
+import ShowStudentModal from "./component/ShowStudentModal";
 
 const Class = () => {
 
     const { refresh } = useRequest(queryClass, { manual: true })
     const navigate = useNavigate();
 
-    const columns: ProColumns<any>[] = [
+    const columns: ProColumns[] = [
         {
             title: '班级ID',
             dataIndex: 'classId',
@@ -32,8 +34,8 @@ const Class = () => {
             dataIndex: 'students',
             key: 'students',
             align: 'center',
-            render: () => (
-                <Button type="link">查看学生</Button>
+            render: (_, record) => (
+               <ShowStudentModal classId={record.classId}/>
             )
         },
         {
@@ -54,7 +56,7 @@ const Class = () => {
             render: (_, record) => (
                 // <ClassModal refresh={refresh} record={record} />
                 <div className="flex gap-8">
-                    <Button type="link" onClick={() => navigate(`/user/class/studentManage/${record?.classId}`)}>管理学生</Button>
+                    <InviteStudentModal classId={record?.classId}/>
                 </div>
             )
         }
