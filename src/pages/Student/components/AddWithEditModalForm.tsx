@@ -7,12 +7,11 @@ import { useState } from "react";
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 const AddWithEditModalForm = (props: any) => {
-    const { type, addUser, getData, getUserById } = props;
+    const { type, addUser, getData, getUserById, dictData } = props;
     const [messageApi, contextHolder] = message.useMessage();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState<any>({});
     const [form] = Form.useForm();
-
     const getDetail = async () => {
         const formData = await getUserById();
         form.setFieldsValue(formData);
@@ -110,50 +109,14 @@ const AddWithEditModalForm = (props: any) => {
                     rules={[{ required: true, message: '请选择性别' }]}
                     name='gender'
                     label='性别'
-                    options={[
-                        {
-                            label: '男',
-                            value: 1
-                        },
-                        {
-                            label: '女',
-                            value: 0
-                        }
-
-                    ]}
+                    options={dictData?.sex}
                 />
                 <ProFormSelect
                     rules={[{ required: true, message: '请输入年级' }]}
 
                     name='grade'
                     label='年级'
-                    options={[
-                        {
-                            label: '一年级',
-                            value: 1
-                        },
-                        {
-                            label: '二年级',
-                            value: 2
-                        },
-                        {
-                            label: '三年级',
-                            value: 3
-                        },
-                        {
-                            label: '四年级',
-                            value: 4
-                        },
-                        {
-                            label: '五年级',
-                            value: 5
-                        },
-                        {
-                            label: '六年级',
-                            value: 6
-                        },
-
-                    ]}
+                    options={dictData?.grade}
                 />
                 <ProFormDigit
                     rules={[{ required: true, message: '请输入年龄' }]}

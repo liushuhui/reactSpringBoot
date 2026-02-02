@@ -1,15 +1,16 @@
 import { ConfigProvider, Spin } from 'antd';
 import ReactDOM from 'react-dom/client';
-import { RouterProvider, useNavigate } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
 import router from './routes';
 
 import menuStore from "@/store/menuStore";
 import  userInfoStore  from '@/store/userInfoStore';
+import dictStore from '@/store/dictMenuStore';
 // import 'antd/dist/reset.css';
 
 import './index.css';
 // import dayjs from 'dayjs';
-import { Suspense, use } from 'react';
+import { Suspense } from 'react';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -24,6 +25,7 @@ const initializeApp = async () => {
   if (token) {
     await userInfoStore.getState().fetchUserInfo();
     await menuStore.getState().fetchMenu();
+    await dictStore.getState().fetchDict();
   }
 
   if (!token && location.pathname !== '/login') {

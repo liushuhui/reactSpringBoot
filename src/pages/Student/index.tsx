@@ -5,6 +5,8 @@ import { useSetState } from 'ahooks';
 import AddWithEditModalForm from './components/AddWithEditModalForm';
 
 import './index.less';
+import { getDictLabel } from '@/utils';
+import dictStore from '@/store/dictMenuStore';
 function Student() {
   const [data, setData] = useSetState({
     list: [],
@@ -18,6 +20,8 @@ function Student() {
   const [modal, modalContextHolder] = Modal.useModal();
 
   const [messageApi, contextHolder] = message.useMessage();
+
+  const { dictData } = dictStore();
 
   const rowSelection: TableProps<any>['rowSelection'] = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
@@ -125,12 +129,14 @@ function Student() {
       dataIndex: 'gender',
       key: 'gender',
       align: 'center',
+      render: (text) => <div>{getDictLabel(dictData, 'sex', text)}</div>
     },
     {
       title: '年级',
       dataIndex: 'grade',
       key: 'grade',
       align: 'center',
+      render: (text) => <div>{getDictLabel(dictData, 'grade', text)}</div>
     },
     {
       title: '分数',
@@ -166,6 +172,7 @@ function Student() {
           <AddWithEditModalForm
             type='edit'
             getData={getData}
+            dictData={dictData}
             addUser={(values: any) => addUser('edit', values, record?.id)}
             getUserById={(id: any) => getUserById(record?.id)}
           />
@@ -217,6 +224,7 @@ function Student() {
           <Button type='primary'>导入</Button>
         </Upload>
         <AddWithEditModalForm
+          dictData={dictData}
           type='add'
           getData={getData}
           addUser={(values: any) => addUser('add', values)}
