@@ -24,22 +24,23 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     const { data, headers, config } = response;
-    
+
     // 处理 token 存储
     if (headers.authorization) {
       localStorage.setItem("app_token", headers.authorization);
     } else if (data && (data as any).token) {
       localStorage.setItem("app_token", (data as any).token);
     }
-    
+
     // 对于 blob 类型（文件下载），返回原始响应
     if (config.responseType === 'blob') {
       return response as any;
     }
-    
+
     // 处理业务逻辑
     if (data.code === 200) {
-      if (!localStorage.getItem("app_token")) {
+      if (!localStorage.getItem("app_token") && config.url !== '/api/getDict') {
+        console.log(1111)
         message.error(data.message);
       }
       // 返回 data，类型为 IResponse
@@ -58,6 +59,7 @@ axiosInstance.interceptors.response.use(
     const { response } = error;
     if (response) {
       const errorData = response.data || { message: "请求失败" };
+
       message.error(errorData.message || "网络连接异常,请稍后再试!");
       return Promise.reject(errorData);
     } else {
@@ -92,4 +94,4 @@ interface CustomAxiosInstance {
 }
 
 // 类型断言，将 axiosInstance 转换为 CustomAxiosInstance
-export default axiosInstance  as CustomAxiosInstance;
+export default axiosInstance as CustomAxiosInstance;

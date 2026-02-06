@@ -5,7 +5,7 @@ import router from './routes';
 
 import menuStore from "@/store/menuStore";
 import  userInfoStore  from '@/store/userInfoStore';
-import dictStore from '@/store/dictMenuStore';
+import dictStore from '@/store/dictStore';
 // import 'antd/dist/reset.css';
 
 import './index.css';
@@ -22,10 +22,10 @@ const initializeApp = async () => {
     window.location.replace('/');
   }
 
+  await dictStore.getState().fetchDict();
   if (token) {
     await userInfoStore.getState().fetchUserInfo();
     await menuStore.getState().fetchMenu();
-    await dictStore.getState().fetchDict();
   }
 
   if (!token && location.pathname !== '/login') {

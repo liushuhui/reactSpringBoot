@@ -6,7 +6,7 @@ import AddWithEditModalForm from './components/AddWithEditModalForm';
 
 import './index.less';
 import { getDictLabel } from '@/utils';
-import dictStore from '@/store/dictMenuStore';
+import dictStore from '@/store/dictStore';
 function Student() {
   const [data, setData] = useSetState({
     list: [],
@@ -239,7 +239,7 @@ function Student() {
       <Table
         bordered
         scroll={{ x: 'max-content' }}
-        rowKey='id'
+        rowKey='roleId'
         className='custable'
         columns={columns}
         dataSource={data?.list}

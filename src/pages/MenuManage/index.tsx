@@ -8,8 +8,12 @@ import { useRequest } from "ahooks";
 import { addMenu, getMenu, getMenuById, updateMenu } from "@/api/menu";
 import dayjs from "dayjs";
 import IconComponent from "@/components/IconComponent";
+import { getDictLabel } from "@/utils";
+import dictStore from "@/store/dictStore";
 const MenuManage = () => {
     const { menuData } = menuStore();
+    const { dictData } = dictStore();
+
     const [dataSource, setDataSource] = useState([]);
 
     const { data }: any = useRequest(getMenu);
@@ -31,6 +35,20 @@ const MenuManage = () => {
             key: 'name',
             dataIndex: 'name',
             width: 200
+        },
+        {
+            title: '菜单类型',
+            key: 'menuType',
+            dataIndex: 'menuType',
+            width: 200,
+            render: (text) => getDictLabel(dictData, 'menuType', text)
+        },
+        {
+            title: '权限标识',
+            key: 'permissionCode',
+            dataIndex: 'permissionCode',
+            width: 200,
+            render: (text: string) => text || '-'
         },
         {
             title: '菜单路径',
@@ -92,6 +110,7 @@ const MenuManage = () => {
                 <Space>
                     <MenuModal
                         type='edit'
+                        dictData={dictData}
                         addMenu={(values) => addMenuFn('edit', values, record?.id)}
                         record={record}
                         getMenuById={async () => await getMenuById({ id: record?.id })}
@@ -131,6 +150,7 @@ const MenuManage = () => {
         <div className="menu-manage">
             <Flex justify="end">
                 <MenuModal
+                    dictData={dictData}
                     parentMenuData={parentMenuData}
                     addMenu={(values) => addMenuFn('add', values)}
                 />

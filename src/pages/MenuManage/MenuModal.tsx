@@ -1,11 +1,12 @@
 import IconSelect from "@/components/IconSelect";
 import menuStore from "@/store/menuStore";
-import { ModalForm, ProFormDigit, ProFormSelect, ProFormSwitch, ProFormText } from "@ant-design/pro-components";
+import { ModalForm, ProFormDigit, ProFormRadio, ProFormSelect, ProFormSwitch, ProFormText } from "@ant-design/pro-components";
 import { Button, Form, message } from "antd";
 
 interface MenuModalProps {
     type?: 'add' | 'edit';
     parentMenuData: any[];
+    dictData: Record<string, any[]>
     addMenu: (data: any) => Promise<any>;
     getMenuById?: () => Promise<any>;
     record?: any;
@@ -14,6 +15,7 @@ const MenuModal = (props: MenuModalProps) => {
     const {
         type = 'add',
         parentMenuData,
+        dictData,
         getMenuById,
         addMenu,
     } = props;
@@ -35,7 +37,8 @@ const MenuModal = (props: MenuModalProps) => {
             <ModalForm
                 form={form}
                 initialValues={{
-                    enable: '1'
+                    enable: '1',
+                    menuType: '01'
                 }}
                 title={type === 'add' ? '新增' : '编辑'}
                 trigger={
@@ -68,6 +71,15 @@ const MenuModal = (props: MenuModalProps) => {
                     name='name'
                     label='菜单名称'
                     rules={[{ required: true, message: '菜单名称' }]}
+                />
+                <ProFormText
+                    name='permissionCode'
+                    label='权限标识'
+                />
+                <ProFormRadio.Group
+                    name='menuType'
+                    label='菜单类型'
+                    options={dictData?.menuType}
                 />
                 <ProFormSwitch
                     name='enable'

@@ -1,4 +1,5 @@
 import { login, register } from '@/api/login';
+import dictStore from '@/store/dictStore';
 import {
     LockOutlined,
     UserOutlined,
@@ -16,11 +17,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const Login = () => {
     const { token } = theme.useToken();
     const [form] = Form.useForm();
+    const { dictData } = dictStore();
 
     const naigate = useNavigate();
     const params = useLocation();
     const [isLogin, setIsLogin] = useState(params.pathname === '/login')
-    console.log('params', isLogin)
+    console.log('params', dictStore())
 
     useEffect(() => {
         setIsLogin(params.pathname === '/login')
@@ -152,20 +154,7 @@ const Login = () => {
                     <ProFormRadio.Group
                         name="role"
                         label='用户角色'
-                        options={[
-                            {
-                                label: '学生',
-                                value: '1',
-                            },
-                            {
-                                label: '教师',
-                                value: '2',
-                            },
-                            {
-                                label: '管理员',
-                                value: '3',
-                            }
-                        ]}
+                        options={dictData?.role ?? []}
                         rules={[
                             {
                                 required: true,
