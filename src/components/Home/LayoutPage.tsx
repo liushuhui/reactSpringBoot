@@ -68,7 +68,7 @@ const LayoutPage = () => {
                 <Sider style={siderStyle}>
                     <MenuComponent />
                 </Sider>
-                <Content style={contentStyle}>
+                <Content style={contentStyle} id="content">
                     <Outlet />
                 </Content>
             </Layout>
